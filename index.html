@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>CS2 Calculator | 4ML3 Resolution & Sens Converter</title>
+
+  <meta
+    name="description"
+    content="CS2 Calculator for 4ML3 resolution, FOV, cm/360, DPI, and in-game sensitivity conversion. Calculate resolution by FOV and convert mouse sensitivity for Counter-Strike 2."
+  />
+  <meta
+    name="keywords"
+    content="CS2 calculator, Counter-Strike 2 calculator, CS2 sens calculator, CS2 sensitivity converter, CS2 cm/360 calculator, CS2 DPI calculator, 4ML3 calculator, 4ML3 resolution calculator, CS2 FOV calculator"
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Lex Witte" />
+  <meta name="theme-color" content="#101114" />
+
+  <link rel="canonical" href="https://lexwitte.github.io/cs2-calculator/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CS2 Calculator | 4ML3 Resolution & Sens Converter" />
+  <meta
+    property="og:description"
+    content="Calculate CS2 4ML3 resolution by FOV and convert sensitivity using cm/360, DPI, and in-game sens."
+  />
+  <meta property="og:url" content="https://lexwitte.github.io/cs2-calculator/" />
+  <meta property="og:site_name" content="CS2 Calculator" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="CS2 Calculator | 4ML3 Resolution & Sens Converter" />
+  <meta
+    name="twitter:description"
+    content="Calculate CS2 4ML3 resolution by FOV and convert sensitivity using cm/360, DPI, and in-game sens."
+  />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CS2 Calculator",
+      "alternateName": "4ML3 Resolution & Sens Calculator",
+      "description": "A free CS2 calculator for 4ML3 game resolution, FOV, cm/360, DPI, and in-game sensitivity conversion.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "url": "https://lexwitte.github.io/cs2-calculator/"
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #101114;
+      --card: #181a20;
+      --card-2: #1f222b;
+      --text: #f3f4f6;
+      --muted: #a8adb8;
+      --accent: #7c9cff;
+      --border: #303440;
+      --danger: #ff7c7c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 156, 255, 0.18), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 980px;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .copyright {
+      margin: 24px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #111318;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124, 156, 255, 0.16);
+    }
+
+    .result {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(124, 156, 255, 0.1);
+      border: 1px solid rgba(124, 156, 255, 0.22);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .result strong {
+      color: white;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .presets {
+      margin: 4px 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .presets a {
+      display: inline-block;
+      margin: 4px 6px 4px 0;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124, 156, 255, 0.12);
+      border: 1px solid rgba(124, 156, 255, 0.26);
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .presets a:hover {
+      background: rgba(124, 156, 255, 0.2);
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <h1>CS2 Calculator</h1>
+
+    <section class="grid">
+      <div class="card">
+        <h2>4ML3 Resolution</h2>
+
+        <label>
+          Required horizontal FOV
+          <input id="fov" type="number" value="90" step="0.01" min="1" max="179" />
+        </label>
+
+        <label>
+          Width
+          <input id="width" type="number" value="1280" step="1" min="1" />
+        </label>
+
+        <label>
+          Height
+          <input id="height" type="number" value="960" step="1" min="1" />
+        </label>
+
+        <div class="result" id="resolutionResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Sensitivity</h2>
+
+        <label>
+          cm/360
+          <input id="cm360" type="number" step="0.0001" min="0.0001" />
+        </label>
+
+        <label>
+          In-game sens
+          <input id="sens" type="number" value="1.25" step="0.01" min="0" max="10" />
+        </label>
+
+        <label>
+          DPI
+          <input id="dpi" type="number" value="800" step="400" min="400" max="32000" />
+        </label>
+
+        <div class="presets">
+          <a href="javascript:setPreset(800, 1.25)">donk</a>
+          <a href="javascript:setPreset(800, 0.9)">NiKo</a>
+          <a href="javascript:setPreset(400, 2.3)">XANTARES</a>
+
+          <a href="javascript:setPreset(400, 2)">ZywOo</a>
+          <a href="javascript:setPreset(400, 3.09)">s1mple</a>
+        </div>
+
+        <div class="result" id="sensResult"></div>
+      </div>
+    </section>
+
+    <p class="copyright">
+      By <a href="https://github.com/lexwitte" target="_blank">Lex Witte</a> ❤️ 2026
+    </p>
+  </main>
+
+  <script>
+    const DEG_TO_RAD = Math.PI / 180;
+    const RAD_TO_DEG = 180 / Math.PI;
+
+    const BASE_ASPECT = 4 / 3;
+    const BASE_FOV = 90;
+    const YAW = 0.022;
+    const CM_PER_INCH = 2.54;
+
+    const fovInput = document.getElementById("fov");
+    const widthInput = document.getElementById("width");
+    const heightInput = document.getElementById("height");
+    const resolutionResult = document.getElementById("resolutionResult");
+
+    const cm360Input = document.getElementById("cm360");
+    const sensInput = document.getElementById("sens");
+    const dpiInput = document.getElementById("dpi");
+    const sensResult = document.getElementById("sensResult");
+
+    let lastResolutionEdited = "width";
+    let lastSensEdited = "sens";
+
+    function toNumber(input) {
+      return Number.parseFloat(input.value);
+    }
+
+    function round(value, digits = 4) {
+      return Number.parseFloat(value.toFixed(digits));
+    }
+
+    function getLockedVerticalFov() {
+      const baseHorizontalRadians = BASE_FOV * DEG_TO_RAD;
+      return 2 * Math.atan(Math.tan(baseHorizontalRadians / 2) / BASE_ASPECT);
+    }
+
+    function getAspectFor4ML3(horizontalFovDegrees) {
+      const verticalRadians = getLockedVerticalFov();
+      const horizontalRadians = horizontalFovDegrees * DEG_TO_RAD;
+
+      return Math.tan(horizontalRadians / 2) / Math.tan(verticalRadians / 2);
+    }
+
+    function calculateHorizontalFovFromAspect(aspect) {
+      const verticalRadians = getLockedVerticalFov();
+      return 2 * Math.atan(Math.tan(verticalRadians / 2) * aspect) * RAD_TO_DEG;
+    }
+
+    function updateResolution() {
+      const fov = toNumber(fovInput);
+      const width = toNumber(widthInput);
+      const height = toNumber(heightInput);
+
+      if (!fov || fov <= 0 || fov >= 179) {
+        resolutionResult.innerHTML = `<span class="error">FOV must be between 1 and 179.</span>`;
+        return;
+      }
+
+      const targetAspect = getAspectFor4ML3(fov);
+
+      if (lastResolutionEdited === "height") {
+        if (!height || height <= 0) {
+          resolutionResult.innerHTML = `<span class="error">Height must be greater than 0.</span>`;
+          return;
+        }
+
+        const calculatedWidth = Math.round(height * targetAspect);
+        widthInput.value = calculatedWidth;
+      } else {
+        if (!width || width <= 0) {
+          resolutionResult.innerHTML = `<span class="error">Width must be greater than 0.</span>`;
+          return;
+        }
+
+        const calculatedHeight = Math.round(width / targetAspect);
+        heightInput.value = calculatedHeight;
+      }
+
+      const finalWidth = toNumber(widthInput);
+      const finalHeight = toNumber(heightInput);
+      const finalAspect = finalWidth / finalHeight;
+      const actualFov = calculateHorizontalFovFromAspect(finalAspect);
+
+      resolutionResult.innerHTML = `
+        <h2>${finalWidth} × ${finalHeight}</h2>
+        Pixel count: <strong>${(finalWidth * finalHeight / 1e6).toFixed(2)}M</strong><br>
+        Aspect ratio: <strong>${round(finalAspect, 5)}:1</strong><br>
+        Actual 4ML3 horizontal FOV: <strong>${round(actualFov, 4)}°</strong>
+      `;
+    }
+
+    function sensFromCm360(cm, dpi) {
+      const inches = cm / CM_PER_INCH;
+      return 360 / (inches * YAW * dpi);
+    }
+
+    function cm360FromSens(sens, dpi) {
+      const inches = 360 / (sens * YAW * dpi);
+      return inches * CM_PER_INCH;
+    }
+
+    function updateSensitivity() {
+      const cm = toNumber(cm360Input);
+      const sens = toNumber(sensInput);
+      const dpi = toNumber(dpiInput);
+
+      if (!dpi || dpi <= 0) {
+        sensResult.innerHTML = `<span class="error">DPI must be greater than 0.</span>`;
+        return;
+      }
+
+      if (lastSensEdited === "sens") {
+        if (!sens || sens <= 0) {
+          sensResult.innerHTML = `<span class="error">In-game sens must be greater than 0.</span>`;
+          return;
+        }
+
+        cm360Input.value = round(cm360FromSens(sens, dpi), 3);
+      } else {
+        if (!cm || cm <= 0) {
+          sensResult.innerHTML = `<span class="error">cm/360 must be greater than 0.</span>`;
+          return;
+        }
+
+        sensInput.value = round(sensFromCm360(cm, dpi), 5);
+      }
+
+      const finalCm = toNumber(cm360Input);
+      const finalSens = toNumber(sensInput);
+      const inches = finalCm / CM_PER_INCH;
+      const increment = finalSens * YAW;
+
+      const avgEdpi = 830;
+      const finalEdpi = dpi * finalSens;
+
+      const abc = finalEdpi >= avgEdpi
+        ? `<strong>${((finalEdpi/avgEdpi - 1) * 100).toFixed(2)}% faster</strong> than average pro`
+        : `<strong>${((1 - finalEdpi/avgEdpi) * 100).toFixed(2)}% slower</strong> than average pro`;
+
+      sensResult.innerHTML = `
+        ${abc}<br><br>
+        in/360: <strong>${round(inches, 4)}</strong>
+      `;
+    }
+
+    function setPreset(dpi, sens) {
+      dpiInput.value = dpi;
+      sensInput.value = sens;
+
+      lastSensEdited = "sens";
+      updateSensitivity();
+    }
+
+    fovInput.addEventListener("input", updateResolution);
+
+    widthInput.addEventListener("input", () => {
+      lastResolutionEdited = "width";
+      updateResolution();
+    });
+
+    heightInput.addEventListener("input", () => {
+      lastResolutionEdited = "height";
+      updateResolution();
+    });
+
+    cm360Input.addEventListener("input", () => {
+      lastSensEdited = "cm";
+      updateSensitivity();
+    });
+
+    dpiInput.addEventListener("input", () => {
+      if (lastSensEdited !== "sens") {
+        lastSensEdited = "cm";
+      }
+      updateSensitivity();
+    });
+
+    sensInput.addEventListener("input", () => {
+      lastSensEdited = "sens";
+      updateSensitivity();
+    });
+
+    updateResolution();
+    updateSensitivity();
+  </script>
+</body>
+</html>
